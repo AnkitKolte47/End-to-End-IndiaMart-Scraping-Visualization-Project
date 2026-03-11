@@ -1,4 +1,4 @@
-# 🕷️ IndiaMART Supplier Intelligence Scraper
+# IndiaMART Supplier Intelligence Scraper
 
 ---
 
