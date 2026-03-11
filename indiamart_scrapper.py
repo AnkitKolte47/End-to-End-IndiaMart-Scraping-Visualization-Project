@@ -1,13 +1,9 @@
 import os
-import json
 from dotenv import load_dotenv
 from firecrawl import FirecrawlApp
 from pydantic import BaseModel, Field
 from typing import List, Optional
 import re
-import statistics
-from collections import Counter
-import pandas as pdt
 import argparse
 
 base_url = "https://www.indiamart.com"
@@ -29,7 +25,7 @@ class TechnicalDetails(BaseModel):
     moq: Optional[str] = Field(None, description="Minimum Order Quantity")
     delivery_time: Optional[str] = Field(None, description="How long it takes to deliver")
 
-# it will run first time only
+
 def get_data_from_scrapping(url):
     print("PHASE 1: Harvesting links from IndiaMART listing page...")
 
@@ -48,12 +44,12 @@ def get_data_from_scrapping(url):
         listing_data = []
         print("Warning: No data found in Phase 1.")    
     return listing_data
-# IT will run first time only 
+ 
 def write_data_into_file(file_name, listing_data):
     with open(file_name, "w") as f:
         f.write(str(listing_data))
 
-## IT will run second time only
+
 def get_data_from_file(file_name):
     with open(file_name, "r") as f:
         reader = f.read()
@@ -61,7 +57,7 @@ def get_data_from_file(file_name):
     listing_data = eval(reader)
     return listing_data
 
-## IT will run first time only
+
 def scrapping_data(url):
     final_deep_dataset = []
     file_name = "raw_data.txt"
@@ -104,7 +100,7 @@ def scrapping_data(url):
     print("Length of final dataset:", len(final_deep_dataset))
 
     return final_deep_dataset
-# It will run second time only 
+ 
 def normalize_city(location):
     """Splits 'City, State' and returns just the City."""
     if not location:
@@ -112,7 +108,7 @@ def normalize_city(location):
     # Example: "Bhiwadi , Rajasthan" -> "Bhiwadi"
     return location.split(",")[0].strip().title()
 
-# It will run second timie only
+
 def extract_from_specs(specs_string, key_name):
     """Extracts values from the Markdown table format."""
     if not specs_string:
@@ -121,8 +117,6 @@ def extract_from_specs(specs_string, key_name):
     match = re.search(pattern, specs_string, re.IGNORECASE)
     return match.group(1).strip() if match else "Not Specified"
 
-#--- 2. ANALYSIS FUNCTIONS ---
-#IT will run second time only
 def count_companies_by_city(cleaned_data):
     """Returns unique company counts per city."""
     city_map = {}
@@ -133,7 +127,7 @@ def count_companies_by_city(cleaned_data):
             city_map[city] = set()
         city_map[city].add(company)
     return {city: len(companies) for city, companies in city_map.items()}
-# IT will run second time only
+
 def count_of_products_per_company(cleaned_data):
     """Return product name with its count."""
 
@@ -148,8 +142,7 @@ def count_of_products_per_company(cleaned_data):
         product_count[product] += 1
 
     return product_count
-#--  TRANSFORMATION LOGIC ---
-#IT will run second time only
+
 def transform_deep_data(raw_list):
     print("Transform function started")
     records = []
@@ -172,15 +165,15 @@ if __name__ == "__main__":
         raw_dataset_file_name = "raw_data.txt"
         raw_dataset = scrapping_data(args.url)
         write_data_into_file(raw_dataset_file_name, raw_dataset)
-    #     dataset = get_data_from_file(raw_dataset_file_name)
-    #     transformed_data = transform_deep_data(dataset)
-    #     print(transformed_data)
-    #     companies_count_city = count_companies_by_city(transformed_data)
-    #     count_products_company = count_of_products_per_company(transformed_data)
-    #     with open("data.json",'w') as file:
-    #         json.dump(transformed_data, file, indent=2)
-    #     print(companies_count_city)
-    #     print(count_products_company)
+        dataset = get_data_from_file(raw_dataset_file_name)
+        transformed_data = transform_deep_data(dataset)
+        print(transformed_data)
+        companies_count_city = count_companies_by_city(transformed_data)
+        count_products_company = count_of_products_per_company(transformed_data)
+        with open("data.json",'w') as file:
+            json.dump(transformed_data, file, indent=2)
+        print(companies_count_city)
+        print(count_products_company)
 
     except Exception as e:
         print("Error in processing :", str(e))
