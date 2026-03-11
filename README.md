@@ -55,18 +55,16 @@ FIRECRAWL_API_KEY=your_api_key_here (IMP : Firecrawl api needs credits you will 
 
 1. Scrape Data
 Run the scraper by providing a target IndiaMART URL and your API key via the command line:
-```
-Bash
-python indiamart_scrapper.py --url "https://www.indiamart.com/isearch.php?s=industrial+pumps" --api_key "YOUR_KEY"
 
+```Bash
+python indiamart_scrapper.py --url "https://www.indiamart.com/isearch.php?s=industrial+pumps" --api_key "YOUR_KEY"
 ```
 
 2. Launch Dashboard
 Once the data.json file is generated, launch the Streamlit app:
-```
-Bash
-streamlit run streamlit.py
 
+```Bash
+streamlit run streamlit.py
 ```
 -----------------------------------------------------------------------------------------------------------------------------
 
