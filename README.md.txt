@@ -53,6 +53,10 @@ Code snippet
 FIRECRAWL_API_KEY=your_api_key_here (IMP : Firecrawl api needs credits you will get 500 free on new account )
 📊 How to Run
 
+```
+Scraping started...
+Data saved to data.json
+```
 1. Scrape Data
 Run the scraper by providing a target IndiaMART URL and your API key via the command line:
 
