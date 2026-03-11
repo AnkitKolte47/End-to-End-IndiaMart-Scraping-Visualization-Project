@@ -272,4 +272,3 @@ st.table(df)
 **Ankit Kolte**  
 📍 Pune, India  
 🎓 B.Tech Student at Sushila Devi Bansal College of Engineering  
-🔗 [GitHub](https://github.com/Ankit-Kolte/indiamart-scraper)
